@@ -35,9 +35,12 @@ public class JsonMappingDataDictionaryTest extends AbstractTestNGUnitTest {
     public void testTranslateExactMatchStrategy() {
         Message message = new DefaultMessage("{\"TestMessage\":{\"Text\":\"Hello World!\",\"OtherText\":\"No changes\", \"OtherNumber\": 10}}");
 
-        Map<String, String> mappings = new HashMap<>();
-        mappings.put("Something.Else", "NotFound");
-        mappings.put("TestMessage.Text", "Hello!");
+        Map<String, Map<String, String>> mappings = new HashMap<>();
+        Map<String, String> value = new HashMap<>();
+        value.put("value", "NotFound");
+        mappings.put("Something.Else", value);
+        value.put("value", "Hello!");
+        mappings.put("TestMessage.Text", value);
 
         JsonMappingDataDictionary dictionary = new JsonMappingDataDictionary();
         dictionary.setMappings(mappings);
@@ -50,9 +53,12 @@ public class JsonMappingDataDictionaryTest extends AbstractTestNGUnitTest {
     public void testTranslateStartsWithStrategy() {
         Message message = new DefaultMessage("{\"TestMessage\":{\"Text\":\"Hello World!\",\"OtherText\":\"No changes\"}}");
 
-        Map<String, String> mappings = new HashMap<>();
-        mappings.put("TestMessage.Text", "Hello!");
-        mappings.put("TestMessage.Other", "Bye!");
+        Map<String, Map<String, String>> mappings = new HashMap<>();
+        Map<String, String> value = new HashMap<>();
+        value.put("value", "Hello!");
+        mappings.put("TestMessage.Text", value);
+        value.put("value", "Bye!");
+        mappings.put("TestMessage.Other", value);
 
         JsonMappingDataDictionary dictionary = new JsonMappingDataDictionary();
         dictionary.setMappings(mappings);
@@ -66,8 +72,10 @@ public class JsonMappingDataDictionaryTest extends AbstractTestNGUnitTest {
     public void testTranslateEndsWithStrategy() {
         Message message = new DefaultMessage("{\"TestMessage\":{\"Text\":\"Hello World!\",\"OtherText\":\"No changes\"}}");
 
-        Map<String, String> mappings = new HashMap<>();
-        mappings.put("Text", "Hello!");
+        Map<String, Map<String, String>> mappings = new HashMap<>();
+        Map<String, String> value = new HashMap<>();
+        value.put("value", "Hello!");
+        mappings.put("Text", value);
 
         JsonMappingDataDictionary dictionary = new JsonMappingDataDictionary();
         dictionary.setMappings(mappings);
@@ -81,8 +89,10 @@ public class JsonMappingDataDictionaryTest extends AbstractTestNGUnitTest {
     public void testTranslateWithVariables() {
         Message message = new DefaultMessage("{\"TestMessage\":{\"Text\":\"Hello World!\",\"OtherText\":\"No changes\"}}");
 
-        Map<String, String> mappings = new HashMap<>();
-        mappings.put("TestMessage.Text", "${helloText}");
+        Map<String, Map<String, String>> mappings = new HashMap<>();
+        Map<String, String> value = new HashMap<>();
+        value.put("value", "${helloText}");
+        mappings.put("TestMessage.Text", value);
 
         JsonMappingDataDictionary dictionary = new JsonMappingDataDictionary();
         dictionary.setMappings(mappings);
@@ -97,9 +107,12 @@ public class JsonMappingDataDictionaryTest extends AbstractTestNGUnitTest {
     public void testTranslateWithArrays() {
         Message message = new DefaultMessage("{\"TestMessage\":{\"Text\":[\"Hello World!\",\"Hello Galaxy!\"],\"OtherText\":\"No changes\"}}");
 
-        Map<String, String> mappings = new HashMap<>();
-        mappings.put("TestMessage.Text[0]", "Hello!");
-        mappings.put("TestMessage.Text[1]", "Hello Universe!");
+        Map<String, Map<String, String>> mappings = new HashMap<>();
+        Map<String, String> value = new HashMap<>();
+        value.put("value", "Hello!");
+        mappings.put("TestMessage.Text[0]", value);
+        value.put("value", "Hello Universe!");
+        mappings.put("TestMessage.Text[1]", value);
 
         JsonMappingDataDictionary dictionary = new JsonMappingDataDictionary();
         dictionary.setMappings(mappings);
@@ -112,9 +125,12 @@ public class JsonMappingDataDictionaryTest extends AbstractTestNGUnitTest {
     public void testTranslateWithArraysAndObjects() {
         Message message = new DefaultMessage("{\"TestMessage\":{\"Greetings\":[{\"Text\":\"Hello World!\"},{\"Text\":\"Hello Galaxy!\"}],\"OtherText\":\"No changes\"}}");
 
-        Map<String, String> mappings = new HashMap<>();
-        mappings.put("TestMessage.Greetings[0].Text", "Hello!");
-        mappings.put("TestMessage.Greetings[1].Text", "Hello Universe!");
+        Map<String, Map<String, String>> mappings = new HashMap<>();
+        Map<String, String> value = new HashMap<>();
+        value.put("value", "Hello!");
+        mappings.put("TestMessage.Greetings[0].Text", value);
+        value.put("value", "Hello Universe!");
+        mappings.put("TestMessage.Greetings[1].Text", value);
 
         JsonMappingDataDictionary dictionary = new JsonMappingDataDictionary();
         dictionary.setMappings(mappings);
@@ -139,8 +155,10 @@ public class JsonMappingDataDictionaryTest extends AbstractTestNGUnitTest {
     public void testTranslateWithNullValues() {
         Message message = new DefaultMessage("{\"TestMessage\":{\"Text\":null,\"OtherText\":null}}");
 
-        Map<String, String> mappings = new HashMap<>();
-        mappings.put("TestMessage.Text", "Hello!");
+        Map<String, Map<String, String>> mappings = new HashMap<>();
+        Map<String, String> value = new HashMap<>();
+        value.put("value", "Hello!");
+        mappings.put("TestMessage.Text", value);
 
         JsonMappingDataDictionary dictionary = new JsonMappingDataDictionary();
         dictionary.setMappings(mappings);
@@ -153,8 +171,10 @@ public class JsonMappingDataDictionaryTest extends AbstractTestNGUnitTest {
     public void testTranslateWithNumberValues() {
         Message message = new DefaultMessage("{\"TestMessage\":{\"Number\":0,\"OtherNumber\":100}}");
 
-        Map<String, String> mappings = new HashMap<>();
-        mappings.put("TestMessage.Number", "99");
+        Map<String, Map<String, String>> mappings = new HashMap<>();
+        Map<String, String> value = new HashMap<>();
+        value.put("value", "99");
+        mappings.put("TestMessage.Number", value);
 
         JsonMappingDataDictionary dictionary = new JsonMappingDataDictionary();
         dictionary.setMappings(mappings);
@@ -167,8 +187,10 @@ public class JsonMappingDataDictionaryTest extends AbstractTestNGUnitTest {
     public void testTranslateNoResult() {
         Message message = new DefaultMessage("{\"TestMessage\":{\"Text\":\"Hello World!\",\"OtherText\":\"No changes\"}}");
 
-        Map<String, String> mappings = new HashMap<>();
-        mappings.put("Something.Else", "NotFound");
+        Map<String, Map<String, String>> mappings = new HashMap<>();
+        Map<String, String> value = new HashMap<>();
+        value.put("value", "NotFound");
+        mappings.put("Something.Else", value);
 
         JsonMappingDataDictionary dictionary = new JsonMappingDataDictionary();
         dictionary.setMappings(mappings);

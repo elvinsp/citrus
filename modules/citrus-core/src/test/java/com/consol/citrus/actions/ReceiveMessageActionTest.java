@@ -402,8 +402,10 @@ public class ReceiveMessageActionTest extends AbstractTestNGUnitTest {
         receiveAction.setMessageBuilder(controlMessageBuilder);
         controlMessageBuilder.setPayloadData("{ \"TestRequest\": { \"Message\": \"?\" }}");
 
-        Map<String, String> overwriteElements = new HashMap<String, String>();
-        overwriteElements.put("$.TestRequest.Message", "Hello World!");
+        Map<String, Map<String, String>> overwriteElements = new HashMap<>();
+        Map<String, String> overwriteInfos = new HashMap<>();
+        overwriteInfos.put("value", "Hello World!");
+        overwriteElements.put("$.TestRequest.Message", overwriteInfos);
 
         JsonPathMessageConstructionInterceptor interceptor = new JsonPathMessageConstructionInterceptor(overwriteElements);
         controlMessageBuilder.add(interceptor);

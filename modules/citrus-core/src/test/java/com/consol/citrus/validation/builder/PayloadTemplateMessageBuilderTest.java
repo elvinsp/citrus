@@ -253,7 +253,7 @@ public class PayloadTemplateMessageBuilderTest extends AbstractTestNGUnitTest {
     @Test
     public void testMessageBuilderWithGlobalDataDictionary() {
         JsonMappingDataDictionary dataDictionary = new JsonMappingDataDictionary();
-        dataDictionary.setMappings(Collections.singletonMap("person.name", "new_value"));
+        dataDictionary.setMappings(Collections.singletonMap("person.name", Collections.singletonMap("value", "new_value")));
 
         context.getGlobalMessageConstructionInterceptors().setMessageConstructionInterceptors(Collections.singletonList(dataDictionary));
         messageBuilder.setPayloadData("{ \"person\": { \"name\": \"initial_value\", \"age\": \"20\"} }");
@@ -266,7 +266,7 @@ public class PayloadTemplateMessageBuilderTest extends AbstractTestNGUnitTest {
     @Test
     public void testMessageBuilderWithExplicitDataDictionary() {
         JsonMappingDataDictionary dataDictionary = new JsonMappingDataDictionary();
-        dataDictionary.setMappings(Collections.singletonMap("person.name", "new_value"));
+        dataDictionary.setMappings(Collections.singletonMap("person.name", Collections.singletonMap("value", "new_value")));
         messageBuilder.setDataDictionary(dataDictionary);
 
         messageBuilder.setPayloadData("{ \"person\": { \"name\": \"initial_value\", \"age\": 20} }");
@@ -284,10 +284,10 @@ public class PayloadTemplateMessageBuilderTest extends AbstractTestNGUnitTest {
     @Test
     public void testMessageBuilderWithGlobalAndExplicitDataDictionary() {
         JsonMappingDataDictionary globalDataDictionary = new JsonMappingDataDictionary();
-        globalDataDictionary.setMappings(Collections.singletonMap("person.name", "global_value"));
+        globalDataDictionary.setMappings(Collections.singletonMap("person.name", Collections.singletonMap("value", "global_value")));
 
         JsonMappingDataDictionary dataDictionary = new JsonMappingDataDictionary();
-        dataDictionary.setMappings(Collections.singletonMap("person.name", "new_value"));
+        dataDictionary.setMappings(Collections.singletonMap("person.name", Collections.singletonMap("value", "new_value")));
 
         context.getGlobalMessageConstructionInterceptors().setMessageConstructionInterceptors(Collections.singletonList(globalDataDictionary));
         messageBuilder.setDataDictionary(dataDictionary);
@@ -308,7 +308,7 @@ public class PayloadTemplateMessageBuilderTest extends AbstractTestNGUnitTest {
     public void testMessageBuilderWithGlobalInboundDataDictionary() {
         JsonMappingDataDictionary dataDictionary = new JsonMappingDataDictionary();
         dataDictionary.setDirection(MessageDirection.INBOUND);
-        dataDictionary.setMappings(Collections.singletonMap("person.name", "new_value"));
+        dataDictionary.setMappings(Collections.singletonMap("person.name", Collections.singletonMap("value", "new_value")));
 
         context.getGlobalMessageConstructionInterceptors().setMessageConstructionInterceptors(Collections.singletonList(dataDictionary));
         messageBuilder.setPayloadData("{ \"person\": { \"name\": \"initial_value\", \"age\": \"20\"} }");
@@ -324,7 +324,7 @@ public class PayloadTemplateMessageBuilderTest extends AbstractTestNGUnitTest {
     public void testMessageBuilderWithGlobalOutboundDataDictionary() {
         JsonMappingDataDictionary dataDictionary = new JsonMappingDataDictionary();
         dataDictionary.setDirection(MessageDirection.OUTBOUND);
-        dataDictionary.setMappings(Collections.singletonMap("person.name", "new_value"));
+        dataDictionary.setMappings(Collections.singletonMap("person.name", Collections.singletonMap("value", "new_value")));
 
         context.getGlobalMessageConstructionInterceptors().setMessageConstructionInterceptors(Collections.singletonList(dataDictionary));
         messageBuilder.setPayloadData("{ \"person\": { \"name\": \"initial_value\", \"age\": \"20\"} }");

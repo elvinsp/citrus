@@ -392,8 +392,10 @@ public class SendMessageActionTest extends AbstractTestNGUnitTest {
         PayloadTemplateMessageBuilder messageBuilder = new PayloadTemplateMessageBuilder();
         messageBuilder.setPayloadData("{ \"TestRequest\": { \"Message\": \"?\" }}");
 
-        Map<String, String> overwriteElements = new HashMap<String, String>();
-        overwriteElements.put("$.TestRequest.Message", "Hello World!");
+        Map<String, Map<String,String>> overwriteElements = new HashMap<>();
+        Map<String, String> overwriteInfos = new HashMap<>();
+        overwriteInfos.put("value", "Hello World!");
+        overwriteElements.put("$.TestRequest.Message", overwriteInfos);
 
         JsonPathMessageConstructionInterceptor interceptor = new JsonPathMessageConstructionInterceptor(overwriteElements);
         messageBuilder.add(interceptor);

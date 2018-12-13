@@ -33,8 +33,10 @@ public class JsonPathMessageConstructionInterceptorTest extends AbstractTestNGUn
     public void testConstructWithJsonPath() {
         Message message = new DefaultMessage("{ \"TestMessage\": { \"Text\": \"Hello World!\" }}");
         
-        Map<String, String> jsonPathExpressions = new HashMap<>();
-        jsonPathExpressions.put("$.TestMessage.Text", "Hello!");
+        Map<String, Map<String, String>> jsonPathExpressions = new HashMap<>();
+        Map<String, String> valueInfos = new HashMap<>();
+        valueInfos.put("value", "Hello!");
+        jsonPathExpressions.put("$.TestMessage.Text", valueInfos);
         
         JsonPathMessageConstructionInterceptor interceptor = new JsonPathMessageConstructionInterceptor(jsonPathExpressions);
         Message intercepted = interceptor.interceptMessage(message, MessageType.JSON.toString(), context);
@@ -45,21 +47,29 @@ public class JsonPathMessageConstructionInterceptorTest extends AbstractTestNGUn
     public void testConstructWithJsonPathMultipleValues() {
         Message message = new DefaultMessage("{ \"TestMessage\": { \"Text\": \"Hello World!\", \"Id\": 1234567}}");
 
-        Map<String, String> jsonPathExpressions = new HashMap<>();
-        jsonPathExpressions.put("$.TestMessage.Text", "Hello!");
-        jsonPathExpressions.put("$.TestMessage.Id", "9999999");
+        Map<String, Map<String, String>> jsonPathExpressions = new HashMap<>();
+        Map<String, String> valueInfos = new HashMap<>();
+        valueInfos.put("value", "Hello!");
+        jsonPathExpressions.put("$.TestMessage.Text", valueInfos);
+        valueInfos.put("value", "9999999");
+        jsonPathExpressions.put("$.TestMessage.Id", valueInfos);
+        valueInfos.put("value", "8888888");
+        valueInfos.put("type", "String");
+        jsonPathExpressions.put("$.TestMessage.Id2", valueInfos);
 
         JsonPathMessageConstructionInterceptor interceptor = new JsonPathMessageConstructionInterceptor(jsonPathExpressions);
         Message intercepted = interceptor.interceptMessage(message, MessageType.JSON.toString(), context);
-        Assert.assertEquals(intercepted.getPayload(String.class), "{\"TestMessage\":{\"Text\":\"Hello!\",\"Id\":9999999}}");
+        Assert.assertEquals(intercepted.getPayload(String.class), "{\"TestMessage\":{\"Text\":\"Hello!\",\"Id\":9999999,\"Id2\":\"8888888\"}}");
     }
 
     @Test
     public void testConstructWithJsonPathWithArrays() {
         Message message = new DefaultMessage("{ \"TestMessage\": [{ \"Text\": \"Hello World!\" }, { \"Text\": \"Another Hello World!\" }]}");
 
-        Map<String, String> jsonPathExpressions = new HashMap<>();
-        jsonPathExpressions.put("$..Text", "Hello!");
+        Map<String, Map<String, String>> jsonPathExpressions = new HashMap<>();
+        Map<String, String> valueInfos = new HashMap<>();
+        valueInfos.put("value", "Hello!");
+        jsonPathExpressions.put("$..Text", valueInfos);
 
         JsonPathMessageConstructionInterceptor interceptor = new JsonPathMessageConstructionInterceptor(jsonPathExpressions);
         Message intercepted = interceptor.interceptMessage(message, MessageType.JSON.toString(), context);
@@ -70,8 +80,10 @@ public class JsonPathMessageConstructionInterceptorTest extends AbstractTestNGUn
     public void testConstructWithJsonPathNoResult() {
         Message message = new DefaultMessage("{ \"TestMessage\": { \"Text\": \"Hello World!\" }}");
 
-        Map<String, String> jsonPathExpressions = new HashMap<>();
-        jsonPathExpressions.put("$.TestMessage.Unknown", "Hello!");
+        Map<String, Map<String, String>> jsonPathExpressions = new HashMap<>();
+        Map<String, String> valueInfos = new HashMap<>();
+        valueInfos.put("value", "Hello!");
+        jsonPathExpressions.put("$.TestMessage.Unknown", valueInfos);
 
         JsonPathMessageConstructionInterceptor interceptor = new JsonPathMessageConstructionInterceptor(jsonPathExpressions);
         Message intercepted = interceptor.interceptMessage(message, MessageType.JSON.toString(), context);
