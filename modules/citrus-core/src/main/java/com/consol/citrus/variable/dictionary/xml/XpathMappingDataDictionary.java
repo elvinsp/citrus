@@ -50,7 +50,7 @@ public class XpathMappingDataDictionary extends AbstractXmlDataDictionary implem
 
     @Override
     public <T> T translate(Node node, T value, TestContext context) {
-        for (Map.Entry<String, String> expressionEntry : mappings.entrySet()) {
+        for (Map.Entry<String, Map<String, String>> expressionEntry : mappings.entrySet()) {
             String expression = expressionEntry.getKey();
 
             NodeList findings = (NodeList) XPathUtils.evaluateExpression(node.getOwnerDocument(), expression, buildNamespaceContext(node), XPathConstants.NODESET);
@@ -59,7 +59,7 @@ public class XpathMappingDataDictionary extends AbstractXmlDataDictionary implem
                 if (log.isDebugEnabled()) {
                     log.debug(String.format("Data dictionary setting element '%s' value: %s", XMLUtils.getNodesPathName(node), expressionEntry.getValue()));
                 }
-                return convertIfNecessary(context.replaceDynamicContentInString(expressionEntry.getValue()), value);
+                return convertIfNecessary(context.replaceDynamicContentInString(expressionEntry.getValue().get("value")), value);
             }
         }
 

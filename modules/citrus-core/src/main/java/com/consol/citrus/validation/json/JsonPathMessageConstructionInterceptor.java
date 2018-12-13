@@ -43,7 +43,7 @@ public class JsonPathMessageConstructionInterceptor extends AbstractMessageConst
     private static Logger log = LoggerFactory.getLogger(JsonPathMessageConstructionInterceptor.class);
 
     /** Overwrites message elements before validating (via JSONPath expressions) */
-    private Map<String, String> jsonPathExpressions = new HashMap<>();
+    private Map<String, Map<String,String>> jsonPathExpressions = new HashMap<>();
 
     /** Optional ignoring element not found errors */
     private boolean ignoreNotFound = false;
@@ -59,7 +59,7 @@ public class JsonPathMessageConstructionInterceptor extends AbstractMessageConst
      * Default constructor using fields.
      * @param jsonPathExpressions
      */
-    public JsonPathMessageConstructionInterceptor(Map<String, String> jsonPathExpressions) {
+    public JsonPathMessageConstructionInterceptor(Map<String, Map<String, String>> jsonPathExpressions) {
         super();
         this.jsonPathExpressions = jsonPathExpressions;
     }
@@ -83,9 +83,10 @@ public class JsonPathMessageConstructionInterceptor extends AbstractMessageConst
             Object jsonData = parser.parse(message.getPayload(String.class));
             DocumentContext documentContext = JsonPath.parse(jsonData);
 
-            for (Map.Entry<String, String> entry : jsonPathExpressions.entrySet()) {
+            for (Map.Entry<String, Map<String, String>> entry : jsonPathExpressions.entrySet()) {
                 jsonPathExpression = entry.getKey();
-                String valueExpression = context.replaceDynamicContentInString(entry.getValue());
+                Map<String, String> element = entry.getValue();
+                String valueExpression = context.replaceDynamicContentInString(element.get("value"));
 
                 Object value;
                 if (valueExpression.equals("true")) {
@@ -98,6 +99,11 @@ public class JsonPathMessageConstructionInterceptor extends AbstractMessageConst
                     } catch (IllegalArgumentException e) {
                         value = valueExpression;
                     }
+                }
+                if(element.containsKey("type")) {
+                  if(element.get("type").equals("String")) {
+                    value = valueExpression;
+                  }
                 }
 
                 try {
@@ -126,11 +132,11 @@ public class JsonPathMessageConstructionInterceptor extends AbstractMessageConst
         return MessageType.JSON.toString().equalsIgnoreCase(messageType);
     }
 
-    public void setJsonPathExpressions(Map<String, String> jsonPathExpressions) {
+    public void setJsonPathExpressions(Map<String, Map<String, String>> jsonPathExpressions) {
         this.jsonPathExpressions = jsonPathExpressions;
     }
 
-    public Map<String, String> getJsonPathExpressions() {
+    public Map<String, Map<String, String>> getJsonPathExpressions() {
         return jsonPathExpressions;
     }
 

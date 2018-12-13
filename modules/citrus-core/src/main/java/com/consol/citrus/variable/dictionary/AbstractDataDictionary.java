@@ -44,7 +44,7 @@ public abstract class AbstractDataDictionary<T> extends AbstractMessageConstruct
     private boolean globalScope = true;
 
     /** Known mappings to this dictionary */
-    protected Map<String, String> mappings = new LinkedHashMap<>();
+    protected Map<String, Map<String, String>> mappings = new LinkedHashMap<>();
 
     /** mapping file resource */
     protected Resource mappingFile;
@@ -93,8 +93,9 @@ public abstract class AbstractDataDictionary<T> extends AbstractMessageConstruct
                     log.debug("Overwriting data dictionary mapping " + key + " old value:" + mappings.get(key)
                             + " new value:" + props.getProperty(key));
                 }
-
-                mappings.put(key, props.getProperty(key));
+                Map<String, String> map = new HashMap<>();
+                map.put("value", props.getProperty(key));
+                mappings.put(key, map);
             }
 
             log.debug("Loaded data dictionary mapping " + mappingFile.getFilename());
@@ -131,7 +132,7 @@ public abstract class AbstractDataDictionary<T> extends AbstractMessageConstruct
      * Sets the mappings.
      * @param mappings
      */
-    public void setMappings(Map<String, String> mappings) {
+    public void setMappings(Map<String, Map<String, String>> mappings) {
         this.mappings = mappings;
     }
 
@@ -139,7 +140,7 @@ public abstract class AbstractDataDictionary<T> extends AbstractMessageConstruct
      * Gets the mappings.
      * @return
      */
-    public Map<String, String> getMappings() {
+    public Map<String, Map<String, String>> getMappings() {
         return mappings;
     }
 

@@ -46,24 +46,24 @@ public class NodeMappingDataDictionary extends AbstractXmlDataDictionary impleme
                 if (log.isDebugEnabled()) {
                     log.debug(String.format("Data dictionary setting element '%s' with value: %s", nodePath, mappings.get(nodePath)));
                 }
-                return convertIfNecessary(context.replaceDynamicContentInString(mappings.get(nodePath)), value);
+                return convertIfNecessary(context.replaceDynamicContentInString(mappings.get(nodePath).get("value")), value);
             }
         } else if (getPathMappingStrategy().equals(PathMappingStrategy.ENDS_WITH)) {
-            for (Map.Entry<String, String> entry : mappings.entrySet()) {
+            for (Map.Entry<String, Map<String, String>> entry : mappings.entrySet()) {
                 if (nodePath.endsWith(entry.getKey())) {
                     if (log.isDebugEnabled()) {
                         log.debug(String.format("Data dictionary setting element '%s' with value: %s", nodePath, entry.getValue()));
                     }
-                    return convertIfNecessary(context.replaceDynamicContentInString(entry.getValue()), value);
+                    return convertIfNecessary(context.replaceDynamicContentInString(entry.getValue().get("value")), value);
                 }
             }
         } else if (getPathMappingStrategy().equals(PathMappingStrategy.STARTS_WITH)) {
-            for (Map.Entry<String, String> entry : mappings.entrySet()) {
+            for (Map.Entry<String, Map<String, String>> entry : mappings.entrySet()) {
                 if (nodePath.startsWith(entry.getKey())) {
                     if (log.isDebugEnabled()) {
                         log.debug(String.format("Data dictionary setting element '%s' with value: %s", nodePath, entry.getValue()));
                     }
-                    return convertIfNecessary(context.replaceDynamicContentInString(entry.getValue()), value);
+                    return convertIfNecessary(context.replaceDynamicContentInString(entry.getValue().get("value")), value);
                 }
             }
         }

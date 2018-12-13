@@ -134,14 +134,17 @@ public abstract class AbstractMessageActionParser implements BeanDefinitionParse
         
         if (messageBuilder != null) {
             Map<String, String> overwriteXpath = new HashMap<>();
-            Map<String, String> overwriteJsonPath = new HashMap<>();
+            Map<String, Map<String, String>> overwriteJsonPath = new HashMap<>();
             List<?> messageValueElements = DomUtils.getChildElementsByTagName(messageElement, "element");
             for (Iterator<?> iter = messageValueElements.iterator(); iter.hasNext();) {
                 Element messageValue = (Element) iter.next();
                 String pathExpression = messageValue.getAttribute("path");
 
                 if (JsonPathMessageValidationContext.isJsonPathExpression(pathExpression)) {
-                    overwriteJsonPath.put(pathExpression, messageValue.getAttribute("value"));
+                    Map<String, String> valueInfo = new HashMap<>();
+                    valueInfo.put("value", messageValue.getAttribute("value"));
+                    valueInfo.put("type", messageValue.getAttribute("type"));
+                    overwriteJsonPath.put(pathExpression, valueInfo);
                 } else {
                     overwriteXpath.put(pathExpression, messageValue.getAttribute("value"));
                 }

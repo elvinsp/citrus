@@ -79,24 +79,24 @@ public class JsonMappingDataDictionary extends AbstractJsonDataDictionary {
                 if (log.isDebugEnabled()) {
                     log.debug(String.format("Data dictionary setting element '%s' with value: %s", jsonPath, mappings.get(jsonPath)));
                 }
-                return convertIfNecessary(context.replaceDynamicContentInString(mappings.get(jsonPath)), value);
+                return convertIfNecessary(context.replaceDynamicContentInString(mappings.get(jsonPath).get("value")), value);
             }
         } else if (getPathMappingStrategy().equals(PathMappingStrategy.ENDS_WITH)) {
-            for (Map.Entry<String, String> entry : mappings.entrySet()) {
+            for (Map.Entry<String, Map<String, String>> entry : mappings.entrySet()) {
                 if (jsonPath.endsWith(entry.getKey())) {
                     if (log.isDebugEnabled()) {
                         log.debug(String.format("Data dictionary setting element '%s' with value: %s", jsonPath, entry.getValue()));
                     }
-                    return convertIfNecessary(context.replaceDynamicContentInString(entry.getValue()), value);
+                    return convertIfNecessary(context.replaceDynamicContentInString(entry.getValue().get("value")), value);
                 }
             }
         } else if (getPathMappingStrategy().equals(PathMappingStrategy.STARTS_WITH)) {
-            for (Map.Entry<String, String> entry : mappings.entrySet()) {
+            for (Map.Entry<String, Map<String, String>> entry : mappings.entrySet()) {
                 if (jsonPath.startsWith(entry.getKey())) {
                     if (log.isDebugEnabled()) {
                         log.debug(String.format("Data dictionary setting element '%s' with value: %s", jsonPath, entry.getValue()));
                     }
-                    return convertIfNecessary(context.replaceDynamicContentInString(entry.getValue()), value);
+                    return convertIfNecessary(context.replaceDynamicContentInString(entry.getValue().get("value")), value);
                 }
             }
         }
