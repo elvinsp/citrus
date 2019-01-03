@@ -96,11 +96,12 @@ public class JsonPathMappingDataDictionaryTest extends AbstractTestNGUnitTest {
         Message message = new DefaultMessage("{\"TestMessage\":{\"Text\":[\"Hello World!\",\"Hello Galaxy!\"],\"OtherText\":\"No changes\"}}");
 
         Map<String, Map<String, String>> mappings = new HashMap<>();
-        Map<String, String> value = new HashMap<>();
-        value.put("value", "Hello!");
-        mappings.put("$.TestMessage.Text[0]", value);
-        value.put("value", "Hello Universe!");
-        mappings.put("$.TestMessage.Text[1]", value);
+        Map<String, String> value0 = new HashMap<>();
+        Map<String, String> value1 = new HashMap<>();
+        value0.put("value", "Hello!");
+        mappings.put("$.TestMessage.Text[0]", value0);
+        value1.put("value", "Hello Universe!");
+        mappings.put("$.TestMessage.Text[1]", value1);
 
         JsonPathMappingDataDictionary dictionary = new JsonPathMappingDataDictionary();
         dictionary.setMappings(mappings);
@@ -114,11 +115,12 @@ public class JsonPathMappingDataDictionaryTest extends AbstractTestNGUnitTest {
         Message message = new DefaultMessage("{\"TestMessage\":{\"Greetings\":[{\"Text\":\"Hello World!\"},{\"Text\":\"Hello Galaxy!\"}],\"OtherText\":\"No changes\"}}");
 
         Map<String, Map<String, String>> mappings = new HashMap<>();
-        Map<String, String> value = new HashMap<>();
-        value.put("value", "Hello!");
-        mappings.put("$.TestMessage.Greetings[0].Text", value);
-        value.put("value", "Hello Universe!");
-        mappings.put("$.TestMessage.Greetings[1].Text", value);
+        Map<String, String> value0 = new HashMap<>();
+        Map<String, String> value1 = new HashMap<>();
+        value0.put("value", "Hello!");
+        mappings.put("$.TestMessage.Greetings[0].Text", value0);
+        value1.put("value", "Hello Universe!");
+        mappings.put("$.TestMessage.Greetings[1].Text", value1);
 
         JsonPathMappingDataDictionary dictionary = new JsonPathMappingDataDictionary();
         dictionary.setMappings(mappings);

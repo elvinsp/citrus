@@ -172,6 +172,7 @@ public class SendMessageActionParserTest extends AbstractActionParserTest<SendMe
         JsonPathMessageConstructionInterceptor jsonMessageConstructionInterceptor = (JsonPathMessageConstructionInterceptor)messageBuilder.getMessageInterceptors().get(0);
 
         Assert.assertEquals(jsonMessageConstructionInterceptor.getJsonPathExpressions().size(), 1);
-        Assert.assertEquals(jsonMessageConstructionInterceptor.getJsonPathExpressions().get("$.FooMessage.foo"), "newValue");
+        Assert.assertEquals(jsonMessageConstructionInterceptor.getJsonPathExpressions().get("$.FooMessage.foo").get("value"), "42" );
+        Assert.assertEquals(jsonMessageConstructionInterceptor.getJsonPathExpressions().get("$.FooMessage.foo").get("datatype"), "Integer" );
     }
 }

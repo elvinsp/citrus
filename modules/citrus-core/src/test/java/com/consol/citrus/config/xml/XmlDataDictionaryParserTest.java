@@ -52,9 +52,10 @@ public class XmlDataDictionaryParserTest extends AbstractBeanDefinitionParserTes
         Assert.assertNull(dictionary.getMappingFile());
         Assert.assertEquals(dictionary.getMappings().size(), 3L);
 
-        Assert.assertEquals(dictionary.getMappings().get("node.name.1"), "value1");
-        Assert.assertEquals(dictionary.getMappings().get("node.name.2"), "value2");
-        Assert.assertEquals(dictionary.getMappings().get("node.name.3"), "value3");
+        Assert.assertEquals(dictionary.getMappings().get("node.name.1").get("value"), "value1");
+        Assert.assertEquals(dictionary.getMappings().get("node.name.2").get("value"), "value2");
+        Assert.assertEquals(dictionary.getMappings().get("node.name.2").get("datatype"), "String");
+        Assert.assertEquals(dictionary.getMappings().get("node.name.3").get("value"), "value3");
 
         dictionary = dictionaries.get("dataDictionary2");
         Assert.assertEquals(dictionary.getName(), "dataDictionary2");
@@ -64,7 +65,7 @@ public class XmlDataDictionaryParserTest extends AbstractBeanDefinitionParserTes
         Assert.assertNull(dictionary.getMappingFile());
         Assert.assertEquals(dictionary.getMappings().size(), 1L);
 
-        Assert.assertEquals(dictionary.getMappings().get("node.name.1"), "value1");
+        Assert.assertEquals(dictionary.getMappings().get("node.name.1").get("value"), "value1");
 
         dictionary = dictionaries.get("dataDictionary3");
         Assert.assertEquals(dictionary.getName(), "dataDictionary3");
@@ -73,7 +74,7 @@ public class XmlDataDictionaryParserTest extends AbstractBeanDefinitionParserTes
         Assert.assertNotNull(dictionary.getMappingFile());
         Assert.assertEquals(dictionary.getMappings().size(), 2L);
 
-        Assert.assertEquals(dictionary.getMappings().get("node.name.1"), "value1");
-        Assert.assertEquals(dictionary.getMappings().get("node.name.2"), "value2");
+        Assert.assertEquals(dictionary.getMappings().get("node.name.1").get("value"), "value1");
+        Assert.assertEquals(dictionary.getMappings().get("node.name.2").get("value"), "value2");
     }
 }

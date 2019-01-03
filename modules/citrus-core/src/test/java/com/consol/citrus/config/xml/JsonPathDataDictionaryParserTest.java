@@ -54,6 +54,7 @@ public class JsonPathDataDictionaryParserTest extends AbstractBeanDefinitionPars
 
         Assert.assertEquals(dictionary.getMappings().get("$.node.name.1").get("value"), "value1");
         Assert.assertEquals(dictionary.getMappings().get("$.node.name.2").get("value"), "value2");
+        Assert.assertEquals(dictionary.getMappings().get("$.node.name.2").get("datatype"), "String");
         Assert.assertEquals(dictionary.getMappings().get("$.node.name.3").get("value"), "value3");
 
         dictionary = dictionaries.get("dataDictionary2");

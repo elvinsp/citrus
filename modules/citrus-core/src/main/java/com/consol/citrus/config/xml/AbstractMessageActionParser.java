@@ -143,7 +143,7 @@ public abstract class AbstractMessageActionParser implements BeanDefinitionParse
                 if (JsonPathMessageValidationContext.isJsonPathExpression(pathExpression)) {
                     Map<String, String> valueInfo = new HashMap<>();
                     valueInfo.put("value", messageValue.getAttribute("value"));
-                    valueInfo.put("type", messageValue.getAttribute("type"));
+                    valueInfo.put("datatype", messageValue.getAttribute("datatype"));
                     overwriteJsonPath.put(pathExpression, valueInfo);
                 } else {
                     overwriteXpath.put(pathExpression, messageValue.getAttribute("value"));

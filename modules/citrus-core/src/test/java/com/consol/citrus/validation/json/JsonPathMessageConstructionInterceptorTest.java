@@ -48,18 +48,76 @@ public class JsonPathMessageConstructionInterceptorTest extends AbstractTestNGUn
         Message message = new DefaultMessage("{ \"TestMessage\": { \"Text\": \"Hello World!\", \"Id\": 1234567}}");
 
         Map<String, Map<String, String>> jsonPathExpressions = new HashMap<>();
-        Map<String, String> valueInfos = new HashMap<>();
-        valueInfos.put("value", "Hello!");
-        jsonPathExpressions.put("$.TestMessage.Text", valueInfos);
-        valueInfos.put("value", "9999999");
-        jsonPathExpressions.put("$.TestMessage.Id", valueInfos);
-        valueInfos.put("value", "8888888");
-        valueInfos.put("type", "String");
-        jsonPathExpressions.put("$.TestMessage.Id2", valueInfos);
+        Map<String, String> valueInfosText = new HashMap<>();
+        Map<String, String> valueInfosId = new HashMap<>();
+        valueInfosText.put("value", "Hello!");
+        jsonPathExpressions.put("$.TestMessage.Text", valueInfosText);
+        valueInfosId.put("value", "9999999");
+        jsonPathExpressions.put("$.TestMessage.Id", valueInfosId);
 
         JsonPathMessageConstructionInterceptor interceptor = new JsonPathMessageConstructionInterceptor(jsonPathExpressions);
         Message intercepted = interceptor.interceptMessage(message, MessageType.JSON.toString(), context);
-        Assert.assertEquals(intercepted.getPayload(String.class), "{\"TestMessage\":{\"Text\":\"Hello!\",\"Id\":9999999,\"Id2\":\"8888888\"}}");
+        Assert.assertEquals(intercepted.getPayload(String.class), "{\"TestMessage\":{\"Text\":\"Hello!\",\"Id\":9999999}}");
+    }
+    
+    @Test
+    public void testConstructWithJsonPathIntegerAsFloatValues() {
+        Message message = new DefaultMessage("{ \"TestMessage\": { \"Text\": \"Hello World!\", \"Id\": 1234567}}");
+
+        Map<String, Map<String, String>> jsonPathExpressions = new HashMap<>();
+        Map<String, String> valueInfosId = new HashMap<>();
+        valueInfosId.put("value", "9999999");
+        valueInfosId.put("datatype", "Float");
+        jsonPathExpressions.put("$.TestMessage.Id", valueInfosId);
+
+        JsonPathMessageConstructionInterceptor interceptor = new JsonPathMessageConstructionInterceptor(jsonPathExpressions);
+        Message intercepted = interceptor.interceptMessage(message, MessageType.JSON.toString(), context);
+        Assert.assertEquals(intercepted.getPayload(String.class), "{\"TestMessage\":{\"Text\":\"Hello World!\",\"Id\":9999999.0}}");
+    }
+    
+    @Test
+    public void testConstructWithJsonPathIntegerAsDoubleValues() {
+        Message message = new DefaultMessage("{ \"TestMessage\": { \"Text\": \"Hello World!\", \"Id\": 1234567}}");
+
+        Map<String, Map<String, String>> jsonPathExpressions = new HashMap<>();
+        Map<String, String> valueInfosId = new HashMap<>();
+        valueInfosId.put("value", "9999999");
+        valueInfosId.put("datatype", "Double");
+        jsonPathExpressions.put("$.TestMessage.Id", valueInfosId);
+
+        JsonPathMessageConstructionInterceptor interceptor = new JsonPathMessageConstructionInterceptor(jsonPathExpressions);
+        Message intercepted = interceptor.interceptMessage(message, MessageType.JSON.toString(), context);
+        Assert.assertEquals(intercepted.getPayload(String.class), "{\"TestMessage\":{\"Text\":\"Hello World!\",\"Id\":9999999.0}}");
+    }
+    
+    @Test
+    public void testConstructWithJsonPathIntegerAsLongValues() {
+        Message message = new DefaultMessage("{ \"TestMessage\": { \"Text\": \"Hello World!\", \"Id\": 1234567}}");
+
+        Map<String, Map<String, String>> jsonPathExpressions = new HashMap<>();
+        Map<String, String> valueInfosId = new HashMap<>();
+        valueInfosId.put("value", "9999999");
+        valueInfosId.put("datatype", "Long");
+        jsonPathExpressions.put("$.TestMessage.Id", valueInfosId);
+
+        JsonPathMessageConstructionInterceptor interceptor = new JsonPathMessageConstructionInterceptor(jsonPathExpressions);
+        Message intercepted = interceptor.interceptMessage(message, MessageType.JSON.toString(), context);
+        Assert.assertEquals(intercepted.getPayload(String.class), "{\"TestMessage\":{\"Text\":\"Hello World!\",\"Id\":9999999}}");
+    }
+    
+    @Test
+    public void testConstructWithJsonPathIntegerAsStringValues() {
+        Message message = new DefaultMessage("{ \"TestMessage\": { \"Text\": \"Hello World!\", \"Id\": 1234567}}");
+
+        Map<String, Map<String, String>> jsonPathExpressions = new HashMap<>();
+        Map<String, String> valueInfosId = new HashMap<>();
+        valueInfosId.put("value", "9999999");
+        valueInfosId.put("datatype", "String");
+        jsonPathExpressions.put("$.TestMessage.Id", valueInfosId);
+
+        JsonPathMessageConstructionInterceptor interceptor = new JsonPathMessageConstructionInterceptor(jsonPathExpressions);
+        Message intercepted = interceptor.interceptMessage(message, MessageType.JSON.toString(), context);
+        Assert.assertEquals(intercepted.getPayload(String.class), "{\"TestMessage\":{\"Text\":\"Hello World!\",\"Id\":\"9999999\"}}");
     }
 
     @Test

@@ -54,13 +54,15 @@ public class XpathMappingDataDictionaryTest extends AbstractTestNGUnitTest {
         Message message = new DefaultMessage(payload);
 
         Map<String, Map<String,String>> mappings = new HashMap<>();
-        Map<String, String> value = new HashMap<>();
-        value.put("value", "Hello!");
-        mappings.put("//TestMessage/Text", value);
-        value.put("value", "bar");
-        mappings.put("//@name", value);
-        value.put("value", "not_found");
-        mappings.put("//something/else", value);
+        Map<String, String> value1 = new HashMap<>();
+        Map<String, String> value2 = new HashMap<>();
+        Map<String, String> value3 = new HashMap<>();
+        value1.put("value", "Hello!");
+        mappings.put("//TestMessage/Text", value1);
+        value2.put("value", "bar");
+        mappings.put("//@name", value2);
+        value3.put("value", "not_found");
+        mappings.put("//something/else", value3);
 
         XpathMappingDataDictionary dictionary = new XpathMappingDataDictionary();
         dictionary.setMappings(mappings);
@@ -77,11 +79,12 @@ public class XpathMappingDataDictionaryTest extends AbstractTestNGUnitTest {
         Message message = new DefaultMessage(payload);
 
         Map<String, Map<String,String>> mappings = new HashMap<>();
-        Map<String, String> value = new HashMap<>();
-        value.put("value", "Hello!");
-        mappings.put("//*[string-length(normalize-space(text())) > 0]", value);
-        value.put("value", "bar");
-        mappings.put("//@*", value);
+        Map<String, String> value1 = new HashMap<>();
+        Map<String, String> value2 = new HashMap<>();
+        value1.put("value", "Hello!");
+        mappings.put("//*[string-length(normalize-space(text())) > 0]", value1);
+        value2.put("value", "bar");
+        mappings.put("//@*", value2);
 
         XpathMappingDataDictionary dictionary = new XpathMappingDataDictionary();
         dictionary.setMappings(mappings);
@@ -98,11 +101,12 @@ public class XpathMappingDataDictionaryTest extends AbstractTestNGUnitTest {
         Message message = new DefaultMessage("<?xml version=\"1.0\" encoding=\"UTF-8\"?><ns1:TestMessage xmlns:ns1=\"http://www.foo.bar\"><ns1:Text>Hello World!</ns1:Text><ns1:OtherText name=\"foo\">No changes</ns1:OtherText></ns1:TestMessage>");
 
         Map<String, Map<String,String>> mappings = new HashMap<>();
-        Map<String, String> value = new HashMap<>();
-        value.put("value", "Hello!");
-        mappings.put("//ns1:TestMessage/ns1:Text", value);
-        value.put("value", "bar");
-        mappings.put("//@name", value);
+        Map<String, String> value1 = new HashMap<>();
+        Map<String, String> value2 = new HashMap<>();
+        value1.put("value", "Hello!");
+        mappings.put("//ns1:TestMessage/ns1:Text", value1);
+        value2.put("value", "bar");
+        mappings.put("//@name", value2);
 
         XpathMappingDataDictionary dictionary = new XpathMappingDataDictionary();
         dictionary.setMappings(mappings);
@@ -119,11 +123,12 @@ public class XpathMappingDataDictionaryTest extends AbstractTestNGUnitTest {
         Message message = new DefaultMessage("<?xml version=\"1.0\" encoding=\"UTF-8\"?><ns1:TestMessage xmlns:ns1=\"http://www.foo.bar\"><ns1:Text>Hello World!</ns1:Text><ns1:OtherText name=\"foo\">No changes</ns1:OtherText></ns1:TestMessage>");
 
         Map<String, Map<String,String>> mappings = new HashMap<>();
-        Map<String, String> value = new HashMap<>();
-        value.put("value", "Hello!");
-        mappings.put("//foo:TestMessage/foo:Text", value);
-        value.put("value", "bar");
-        mappings.put("//@name", value);
+        Map<String, String> value1 = new HashMap<>();
+        Map<String, String> value2 = new HashMap<>();
+        value1.put("value", "Hello!");
+        mappings.put("//foo:TestMessage/foo:Text", value1);
+        value2.put("value", "bar");
+        mappings.put("//@name", value2);
 
         XpathMappingDataDictionary dictionary = new XpathMappingDataDictionary();
         dictionary.setMappings(mappings);
@@ -146,11 +151,12 @@ public class XpathMappingDataDictionaryTest extends AbstractTestNGUnitTest {
         Message message = new DefaultMessage(payload);
 
         Map<String, Map<String,String>> mappings = new HashMap<>();
-        Map<String, String> value = new HashMap<>();
-        value.put("value", "${hello}");
-        mappings.put("//TestMessage/Text", value);
-        value.put("value", "bar");
-        mappings.put("//@name", value);
+        Map<String, String> value1 = new HashMap<>();
+        Map<String, String> value2 = new HashMap<>();
+        value1.put("value", "${hello}");
+        mappings.put("//TestMessage/Text", value1);
+        value2.put("value", "bar");
+        mappings.put("//@name", value2);
 
         context.setVariable("hello", "Hello!");
 
@@ -184,11 +190,12 @@ public class XpathMappingDataDictionaryTest extends AbstractTestNGUnitTest {
         Message message = new DefaultMessage(payload);
 
         Map<String, Map<String,String>> mappings = new HashMap<>();
-        Map<String, String> value = new HashMap<>();
-        value.put("value", "Hello!");
-        mappings.put("//TestMessage/Unknown", value);
-        value.put("value", "bar");
-        mappings.put("//@name", value);
+        Map<String, String> value1 = new HashMap<>();
+        Map<String, String> value2 = new HashMap<>();
+        value1.put("value1", "Hello!");
+        mappings.put("//TestMessage/Unknown", value1);
+        value2.put("value", "bar");
+        mappings.put("//@name", value2);
 
         XpathMappingDataDictionary dictionary = new XpathMappingDataDictionary();
         dictionary.setMappings(mappings);
@@ -205,11 +212,12 @@ public class XpathMappingDataDictionaryTest extends AbstractTestNGUnitTest {
         Message message = new DefaultMessage(htmlPayload);
 
         Map<String, Map<String,String>> mappings = new HashMap<>();
-        Map<String, String> value = new HashMap<>();
-        value.put("value", "Hello!");
-        mappings.put("/xh:html/xh:head/xh:title", value);
-        value.put("value", "Hello Citrus!");
-        mappings.put("//xh:h1", value);
+        Map<String, String> value1 = new HashMap<>();
+        Map<String, String> value2 = new HashMap<>();
+        value1.put("value", "Hello!");
+        mappings.put("/xh:html/xh:head/xh:title", value1);
+        value2.put("value", "Hello Citrus!");
+        mappings.put("//xh:h1", value2);
 
         XpathMappingDataDictionary dictionary = new XpathMappingDataDictionary();
         dictionary.setMappings(mappings);
@@ -219,7 +227,7 @@ public class XpathMappingDataDictionaryTest extends AbstractTestNGUnitTest {
         dictionary.setNamespaceContextBuilder(namespaceContextBuilder);
 
         Message intercepted = dictionary.interceptMessage(message, MessageType.XHTML.name(), context);
-        Assert.assertTrue(intercepted.getPayload(String.class).trim().contains("<title>Hello</title>"));
+        Assert.assertTrue(intercepted.getPayload(String.class).trim().contains("<title>Hello!</title>"));
         Assert.assertTrue(intercepted.getPayload(String.class).trim().contains("<h1>Hello Citrus!</h1>"));
         Assert.assertTrue(intercepted.getPayload(String.class).trim().contains("<hr />"));
     }

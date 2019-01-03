@@ -89,20 +89,57 @@ public class JsonPathMessageConstructionInterceptor extends AbstractMessageConst
                 String valueExpression = context.replaceDynamicContentInString(element.get("value"));
 
                 Object value;
-                if (valueExpression.equals("true")) {
-                    value = true;
-                } else if (valueExpression.equals("false")) {
-                    value = false;
-                } else {
+                if(element.containsKey("datatype")) {
+                  // explicit datatype declared
+                  if(element.get("datatype").equals("Boolean")) {
+                    if (valueExpression.equals("true")) {
+                      value = true;
+                    } else if (valueExpression.equals("false")) {
+                        value = false;
+                    } else {
+                      value = valueExpression;
+                    }
+                  } else if(element.get("datatype").equals("String")) {
+                    value = valueExpression;
+                  } else if(element.get("datatype").equals("Integer")) {
                     try {
                         value = NumberUtils.parseNumber(valueExpression, Integer.class);
                     } catch (IllegalArgumentException e) {
                         value = valueExpression;
                     }
-                }
-                if(element.containsKey("type")) {
-                  if(element.get("type").equals("String")) {
+                  } else if(element.get("datatype").equals("Long")) {
+                    try {
+                        value = NumberUtils.parseNumber(valueExpression, Long.class);
+                    } catch (IllegalArgumentException e) {
+                        value = valueExpression;
+                    }
+                  } else if(element.get("datatype").equals("Float")) {
+                    try {
+                        value = NumberUtils.parseNumber(valueExpression, Float.class);
+                    } catch (IllegalArgumentException e) {
+                        value = valueExpression;
+                    }
+                  } else if(element.get("datatype").equals("Double")) {
+                    try {
+                        value = NumberUtils.parseNumber(valueExpression, Double.class);
+                    } catch (IllegalArgumentException e) {
+                        value = valueExpression;
+                    }
+                  } else {
                     value = valueExpression;
+                  }
+                } else {
+                  // no datatype declared
+                  if (valueExpression.equals("true")) {
+                      value = true;
+                  } else if (valueExpression.equals("false")) {
+                      value = false;
+                  } else {
+                      try {
+                          value = NumberUtils.parseNumber(valueExpression, Integer.class);
+                      } catch (IllegalArgumentException e) {
+                          value = valueExpression;
+                      }
                   }
                 }
 

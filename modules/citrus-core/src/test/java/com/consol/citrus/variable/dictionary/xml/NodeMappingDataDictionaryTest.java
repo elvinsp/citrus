@@ -60,11 +60,12 @@ public class NodeMappingDataDictionaryTest extends AbstractTestNGUnitTest {
         Message message = new DefaultMessage("<?xml version=\"1.0\" encoding=\"UTF-8\"?><TestMessage><Text>Hello World!</Text><OtherText>Good Bye!</OtherText></TestMessage>");
 
         Map<String, Map<String, String>> mappings = new HashMap<>();
-        Map<String, String> value = new HashMap<>();
-        value.put("value", "Hello!");
-        mappings.put("TestMessage.Text", value);
-        value.put("value", "Bye!");
-        mappings.put("TestMessage.Other", value);
+        Map<String, String> value1 = new HashMap<>();
+        Map<String, String> value2 = new HashMap<>();
+        value1.put("value", "Hello!");
+        mappings.put("TestMessage.Text", value1);
+        value2.put("value", "Bye!");
+        mappings.put("TestMessage.Other", value2);
 
         NodeMappingDataDictionary dictionary = new NodeMappingDataDictionary();
         dictionary.setMappings(mappings);
@@ -102,11 +103,12 @@ public class NodeMappingDataDictionaryTest extends AbstractTestNGUnitTest {
         Message message = new DefaultMessage("<?xml version=\"1.0\" encoding=\"UTF-8\"?><TestMessage><Text name=\"helloText\">Hello World!</Text><OtherText name=\"goodbyeText\">No changes</OtherText></TestMessage>");
 
         Map<String, Map<String, String>> mappings = new HashMap<>();
-        Map<String, String> value = new HashMap<>();
-        value.put("value", "Hello!");
-        mappings.put("TestMessage.Text", value);
-        value.put("value", "newName");
-        mappings.put("TestMessage.Text.name", value);
+        Map<String, String> value1 = new HashMap<>();
+        Map<String, String> value2 = new HashMap<>();
+        value1.put("value", "Hello!");
+        mappings.put("TestMessage.Text", value1);
+        value2.put("value", "newName");
+        mappings.put("TestMessage.Text.name", value2);
 
         NodeMappingDataDictionary dictionary = new NodeMappingDataDictionary();
         dictionary.setMappings(mappings);
@@ -143,11 +145,12 @@ public class NodeMappingDataDictionaryTest extends AbstractTestNGUnitTest {
         Message message = new DefaultMessage("<?xml version=\"1.0\" encoding=\"UTF-8\"?><TestMessage><Text name=\"\">Hello World!</Text><OtherText>No changes</OtherText></TestMessage>");
 
         Map<String, Map<String, String>> mappings = new HashMap<>();
-        Map<String, String> value = new HashMap<>();
-        value.put("value", "${newText}");
-        mappings.put("TestMessage.Text", value);
-        value.put("value", "citrus:upperCase('text')");
-        mappings.put("TestMessage.Text.name", value);
+        Map<String, String> value1 = new HashMap<>();
+        Map<String, String> value2 = new HashMap<>();
+        value1.put("value", "${newText}");
+        mappings.put("TestMessage.Text", value1);
+        value2.put("value", "citrus:upperCase('text')");
+        mappings.put("TestMessage.Text.name", value2);
 
         context.setVariable("newText", "Hello!");
 

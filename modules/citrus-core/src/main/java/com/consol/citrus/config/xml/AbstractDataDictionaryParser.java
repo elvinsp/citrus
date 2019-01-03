@@ -25,7 +25,7 @@ import org.springframework.beans.factory.xml.ParserContext;
 import org.springframework.util.xml.DomUtils;
 import org.w3c.dom.Element;
 
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * @author Christoph Deppisch
@@ -65,9 +65,14 @@ public abstract class AbstractDataDictionaryParser implements BeanDefinitionPars
      * @param element the source element.
      */
     private void parseMappingDefinitions(BeanDefinitionBuilder builder, Element element) {
-        HashMap<String, String> mappings = new HashMap<String, String>();
+        Map<String, Map<String, String>> mappings = new HashMap<>();
         for (Element matcher : DomUtils.getChildElementsByTagName(element, "mapping")) {
-            mappings.put(matcher.getAttribute("path"), matcher.getAttribute("value"));
+            Map<String, String> value = new HashMap<>();
+            value.put("value", matcher.getAttribute("value"));
+            if(matcher.hasAttribute("datatype")) {
+              value.put("datatype", matcher.getAttribute("datatype"));
+            }
+            mappings.put(matcher.getAttribute("path"), value);
         }
 
         if (!mappings.isEmpty()) {

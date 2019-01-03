@@ -339,7 +339,7 @@ public class ReceiveMessageActionParserTest extends AbstractActionParserTest<Rec
         JsonPathMessageConstructionInterceptor jsonMessageConstructionInterceptor = (JsonPathMessageConstructionInterceptor)messageBuilder.getMessageInterceptors().get(0);
 
         Assert.assertEquals(jsonMessageConstructionInterceptor.getJsonPathExpressions().size(), 1);
-        Assert.assertEquals(jsonMessageConstructionInterceptor.getJsonPathExpressions().get("$.FooMessage.foo"), "newValue");
+        Assert.assertEquals(jsonMessageConstructionInterceptor.getJsonPathExpressions().get("$.FooMessage.foo").get("value"), "newValue");
 
         Assert.assertEquals(jsonValidationContext.getIgnoreExpressions().size(), 1);
         Assert.assertEquals(jsonValidationContext.getIgnoreExpressions().iterator().next(), "$.FooMessage.bar");
