@@ -99,29 +99,15 @@ public class JsonPathMessageConstructionInterceptor extends AbstractMessageConst
                     } else {
                       value = valueExpression;
                     }
-                  } else if(element.get("datatype").equals("String")) {
-                    value = valueExpression;
                   } else if(element.get("datatype").equals("Integer")) {
                     try {
                         value = NumberUtils.parseNumber(valueExpression, Integer.class);
                     } catch (IllegalArgumentException e) {
                         value = valueExpression;
                     }
-                  } else if(element.get("datatype").equals("Long")) {
-                    try {
-                        value = NumberUtils.parseNumber(valueExpression, Long.class);
-                    } catch (IllegalArgumentException e) {
-                        value = valueExpression;
-                    }
                   } else if(element.get("datatype").equals("Float")) {
                     try {
                         value = NumberUtils.parseNumber(valueExpression, Float.class);
-                    } catch (IllegalArgumentException e) {
-                        value = valueExpression;
-                    }
-                  } else if(element.get("datatype").equals("Double")) {
-                    try {
-                        value = NumberUtils.parseNumber(valueExpression, Double.class);
                     } catch (IllegalArgumentException e) {
                         value = valueExpression;
                     }
