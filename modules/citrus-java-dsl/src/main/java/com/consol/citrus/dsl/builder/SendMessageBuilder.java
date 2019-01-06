@@ -44,6 +44,7 @@ import org.springframework.xml.transform.StringResult;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Map;
+import java.util.HashMap;
 
 /**
  * Action builder creates a send message action with several message payload and header
@@ -525,8 +526,36 @@ public class SendMessageBuilder<A extends SendMessageAction, T extends SendMessa
                 getAction().setMessageBuilder(messageBuilder);
             }
         }
+        Map<String, String> valueInfos = new HashMap<>();
+        valueInfos.put("value", value);
+        jsonPathMessageConstructionInterceptor.getJsonPathExpressions().put(expression, valueInfos);
+        return self;
+    }
+    
+    /**
+     * Adds JSONPath manipulating expression that evaluates to message payload before sending.
+     * @param expression
+     * @param value
+     * @param datatype
+     * @return
+     */
+    public T jsonPath(String expression, String value, String datatype) {
+        if (jsonPathMessageConstructionInterceptor == null) {
+            jsonPathMessageConstructionInterceptor = new JsonPathMessageConstructionInterceptor();
 
-        jsonPathMessageConstructionInterceptor.getJsonPathExpressions().put(expression, value);
+            if (getAction().getMessageBuilder() != null) {
+                (getAction().getMessageBuilder()).add(jsonPathMessageConstructionInterceptor);
+            } else {
+                PayloadTemplateMessageBuilder messageBuilder = new PayloadTemplateMessageBuilder();
+                messageBuilder.getMessageInterceptors().add(jsonPathMessageConstructionInterceptor);
+
+                getAction().setMessageBuilder(messageBuilder);
+            }
+        }
+        Map<String, String> valueInfos = new HashMap<>();
+        valueInfos.put("value", value);
+        valueInfos.put("datatype", datatype);
+        jsonPathMessageConstructionInterceptor.getJsonPathExpressions().put(expression, valueInfos);
         return self;
     }
 
