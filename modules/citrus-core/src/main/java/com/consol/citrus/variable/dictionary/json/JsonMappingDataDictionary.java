@@ -122,12 +122,55 @@ public class JsonMappingDataDictionary extends AbstractJsonDataDictionary {
                     if (jsonArray.get(i) instanceof JSONObject) {
                         traverseJsonData((JSONObject) jsonArray.get(i), String.format((StringUtils.hasText(jsonPath) ? jsonPath + "." + jsonEntry.getKey() : jsonEntry.getKey().toString()) + "[%s]", i), context);
                     } else {
-                        jsonArray.set(i, translate(String.format((StringUtils.hasText(jsonPath) ? jsonPath + "." + jsonEntry.getKey() : jsonEntry.getKey().toString()) + "[%s]", i), jsonArray.get(i), context));
+                        String mappingPath;
+                        mappingPath = String.format((StringUtils.hasText(jsonPath) ? jsonPath + "." + jsonEntry.getKey() : jsonEntry.getKey().toString()) + "[%s]", i);
+                        if(mappings.containsKey(mappingPath)&& mappings.get(mappingPath).containsKey("datatype")) {
+                            if(mappings.get(mappingPath).get("datatype").equals("Integer")) {
+                                int value;
+                                value = 0;
+                                jsonArray.set(i, translate(mappingPath, value, context));
+                            } else if(mappings.get(mappingPath).get("datatype").equals("Float")) {
+                                float value;
+                                value = 0;
+                                jsonArray.set(i, translate(mappingPath, value, context));
+                            } else if(mappings.get(mappingPath).get("datatype").equals("Boolean")) {
+                                Boolean value;
+                                value = false;
+                                jsonArray.set(i, translate(mappingPath, value, context));
+                            } else {
+                                String value;
+                                value = "0";
+                                jsonArray.set(i, translate(mappingPath, value, context));
+                            } 
+                        } else {
+                            jsonArray.set(i, translate(mappingPath, jsonArray.get(i), context));
+                        }
                     }
                 }
             } else {
-                jsonEntry.setValue(translate((StringUtils.hasText(jsonPath) ? jsonPath + "." + jsonEntry.getKey() : jsonEntry.getKey().toString()),
-                        jsonEntry.getValue() != null ? jsonEntry.getValue() : null, context));
+                String mappingPath;
+                mappingPath = StringUtils.hasText(jsonPath) ? jsonPath + "." + jsonEntry.getKey() : jsonEntry.getKey().toString();
+                if(mappings.containsKey(mappingPath) && mappings.get(mappingPath).containsKey("datatype")) {
+                    if(mappings.get(mappingPath).get("datatype").equals("Integer")) {
+                        int value;
+                        value = 0;
+                        jsonEntry.setValue(translate(mappingPath, value, context));
+                    } else if(mappings.get(mappingPath).get("datatype").equals("Float")) {
+                        float value;
+                        value = 0;
+                        jsonEntry.setValue(translate(mappingPath, value, context));
+                    } else if(mappings.get(mappingPath).get("datatype").equals("Boolean")) {
+                        Boolean value;
+                        value = false;
+                        jsonEntry.setValue(translate(mappingPath, value, context));
+                    } else {
+                        String value;
+                        value = "0";
+                        jsonEntry.setValue(translate(mappingPath, value, context));
+                    } 
+                } else {
+                    jsonEntry.setValue(translate(mappingPath, jsonEntry.getValue() != null ? jsonEntry.getValue() : null, context));
+                }
             }
         }
     }

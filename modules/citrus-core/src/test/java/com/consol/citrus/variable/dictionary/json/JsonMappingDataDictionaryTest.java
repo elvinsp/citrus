@@ -36,17 +36,38 @@ public class JsonMappingDataDictionaryTest extends AbstractTestNGUnitTest {
         Message message = new DefaultMessage("{\"TestMessage\":{\"Text\":\"Hello World!\",\"OtherText\":\"No changes\", \"OtherNumber\": 10}}");
 
         Map<String, Map<String, String>> mappings = new HashMap<>();
-        Map<String, String> value = new HashMap<>();
-        value.put("value", "NotFound");
-        mappings.put("Something.Else", value);
-        value.put("value", "Hello!");
-        mappings.put("TestMessage.Text", value);
+        Map<String, String> valueElse = new HashMap<>();
+        Map<String, String> valueText = new HashMap<>();
+        valueElse.put("value", "NotFound");
+        mappings.put("Something.Else", valueElse);
+        valueText.put("value", "Hello!");
+        mappings.put("TestMessage.Text", valueText);
 
         JsonMappingDataDictionary dictionary = new JsonMappingDataDictionary();
         dictionary.setMappings(mappings);
 
         Message intercepted = dictionary.interceptMessage(message, MessageType.JSON.toString(), context);
         Assert.assertEquals(intercepted.getPayload(String.class), "{\"TestMessage\":{\"Text\":\"Hello!\",\"OtherText\":\"No changes\",\"OtherNumber\":10}}");
+    }
+    
+    @Test
+    public void testTranslateExactMatchStrategyWithInteger() {
+        Message message = new DefaultMessage("{\"TestMessage\":{\"Number\":\"Hello World!\",\"OtherText\":\"No changes\", \"OtherNumber\": 10}}");
+
+        Map<String, Map<String, String>> mappings = new HashMap<>();
+        Map<String, String> valueElse = new HashMap<>();
+        Map<String, String> valueText = new HashMap<>();
+        valueElse.put("value", "NotFound");
+        mappings.put("Something.Else", valueElse);
+        valueText.put("value", "42");
+        valueText.put("datatype", "Integer");
+        mappings.put("TestMessage.Number", valueText);
+
+        JsonMappingDataDictionary dictionary = new JsonMappingDataDictionary();
+        dictionary.setMappings(mappings);
+
+        Message intercepted = dictionary.interceptMessage(message, MessageType.JSON.toString(), context);
+        Assert.assertEquals(intercepted.getPayload(String.class), "{\"TestMessage\":{\"Number\":42,\"OtherText\":\"No changes\",\"OtherNumber\":10}}");
     }
 
     @Test
@@ -67,6 +88,27 @@ public class JsonMappingDataDictionaryTest extends AbstractTestNGUnitTest {
 
         Message intercepted = dictionary.interceptMessage(message, MessageType.JSON.toString(), context);
         Assert.assertEquals(intercepted.getPayload(String.class), "{\"TestMessage\":{\"Text\":\"Hello!\",\"OtherText\":\"Bye!\"}}");
+    }
+    
+    @Test
+    public void testTranslateStartsWithStrategyWithInteger() {
+        Message message = new DefaultMessage("{\"TestMessage\":{\"Text\":\"Hello World!\",\"OtherNumber\":\"No changes\"}}");
+
+        Map<String, Map<String, String>> mappings = new HashMap<>();
+        Map<String, String> valueText = new HashMap<>();
+        Map<String, String> valueOther = new HashMap<>();
+        valueText.put("value", "Hello!");
+        mappings.put("TestMessage.Text", valueText);
+        valueOther.put("value", "42");
+        valueOther.put("datatype", "Integer");
+        mappings.put("TestMessage.Other", valueOther);
+
+        JsonMappingDataDictionary dictionary = new JsonMappingDataDictionary();
+        dictionary.setMappings(mappings);
+        dictionary.setPathMappingStrategy(DataDictionary.PathMappingStrategy.STARTS_WITH);
+
+        Message intercepted = dictionary.interceptMessage(message, MessageType.JSON.toString(), context);
+        Assert.assertEquals(intercepted.getPayload(String.class), "{\"TestMessage\":{\"Text\":\"Hello!\",\"OtherNumber\":\"Bye!\"}}");
     }
 
     @Test

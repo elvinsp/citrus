@@ -76,36 +76,6 @@ public class JsonPathMessageConstructionInterceptorTest extends AbstractTestNGUn
     }
     
     @Test
-    public void testConstructWithJsonPathIntegerAsDoubleValues() {
-        Message message = new DefaultMessage("{ \"TestMessage\": { \"Text\": \"Hello World!\", \"Id\": 1234567}}");
-
-        Map<String, Map<String, String>> jsonPathExpressions = new HashMap<>();
-        Map<String, String> valueInfosId = new HashMap<>();
-        valueInfosId.put("value", "9999999");
-        valueInfosId.put("datatype", "Double");
-        jsonPathExpressions.put("$.TestMessage.Id", valueInfosId);
-
-        JsonPathMessageConstructionInterceptor interceptor = new JsonPathMessageConstructionInterceptor(jsonPathExpressions);
-        Message intercepted = interceptor.interceptMessage(message, MessageType.JSON.toString(), context);
-        Assert.assertEquals(intercepted.getPayload(String.class), "{\"TestMessage\":{\"Text\":\"Hello World!\",\"Id\":9999999.0}}");
-    }
-    
-    @Test
-    public void testConstructWithJsonPathIntegerAsLongValues() {
-        Message message = new DefaultMessage("{ \"TestMessage\": { \"Text\": \"Hello World!\", \"Id\": 1234567}}");
-
-        Map<String, Map<String, String>> jsonPathExpressions = new HashMap<>();
-        Map<String, String> valueInfosId = new HashMap<>();
-        valueInfosId.put("value", "9999999");
-        valueInfosId.put("datatype", "Long");
-        jsonPathExpressions.put("$.TestMessage.Id", valueInfosId);
-
-        JsonPathMessageConstructionInterceptor interceptor = new JsonPathMessageConstructionInterceptor(jsonPathExpressions);
-        Message intercepted = interceptor.interceptMessage(message, MessageType.JSON.toString(), context);
-        Assert.assertEquals(intercepted.getPayload(String.class), "{\"TestMessage\":{\"Text\":\"Hello World!\",\"Id\":9999999}}");
-    }
-    
-    @Test
     public void testConstructWithJsonPathIntegerAsStringValues() {
         Message message = new DefaultMessage("{ \"TestMessage\": { \"Text\": \"Hello World!\", \"Id\": 1234567}}");
 
