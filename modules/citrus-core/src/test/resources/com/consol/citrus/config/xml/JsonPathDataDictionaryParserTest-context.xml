@@ -5,14 +5,14 @@
         xmlns:citrus="http://www.citrusframework.org/schema/config"
         xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
                             http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-                            http://www.citrusframework.org/schema/config http://www.citrusframework.org/schema/config/citrus-config.xsd">
+                            http://www.citrusframework.org/schema/config classpath:schemas/citrus-config.xsd">
 
   <context:annotation-config/>
 
   <citrus:json-path-data-dictionary id="dataDictionary1">
     <citrus:mappings>
       <citrus:mapping path="$.node.name.1" value="value1"/>
-      <citrus:mapping path="$.node.name.2" value="value2"/>
+      <citrus:mapping path="$.node.name.2" value="value2" datatype="String"/>
       <citrus:mapping path="$.node.name.3" value="value3"/>
     </citrus:mappings>
   </citrus:json-path-data-dictionary>

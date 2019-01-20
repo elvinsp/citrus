@@ -3,7 +3,7 @@
               xmlns:spring="http://www.springframework.org/schema/beans" 
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
               xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
-                                  http://www.citrusframework.org/schema/testcase http://www.citrusframework.org/schema/testcase/citrus-testcase.xsd">
+                                  http://www.citrusframework.org/schema/testcase classpath:schemas/citrus-testcase.xsd">
 
     <testcase name="SendMessageActionParserTest">
         <actions>
@@ -101,7 +101,7 @@
                             { "FooMessage": { "foo": "Hello World!" }, { "bar": "@ignore@" }}
                         ]]>
                     </data>
-                    <element path="$.FooMessage.foo" value="newValue"/>
+                    <element path="$.FooMessage.foo" value="42" datatype="Integer"/>
                 </message>
             </send>
 
